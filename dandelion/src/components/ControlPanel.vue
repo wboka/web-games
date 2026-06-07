@@ -3,37 +3,37 @@
     <h3
       class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6 w-full text-left border-b border-slate-700 pb-2"
     >
-      💨 Compass Wind Vector Controller
+      🍃 Compass Wind Vector Controller
     </h3>
 
     <div class="w-full bg-slate-800 p-5 rounded-3xl border border-slate-700/60 shadow-xl flex flex-col gap-4">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+      <div class="grid grid-cols-1 gap-3 text-xs">
         <div class="flex flex-col gap-1.5">
-          <label class="text-slate-400 font-medium">Meadow Grid Boundary</label>
+          <label class="text-slate-400 font-medium">Meadow Size</label>
           <select
             :value="gridSize"
             @change="updateGridSize"
             :disabled="gameStarted"
             class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-slate-200 font-semibold focus:outline-none focus:border-emerald-500 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <option :value="5">5 x 5 (Standard PvP)</option>
-            <option :value="6">6 x 6 (Larger Meadow)</option>
-            <option :value="7">7 x 7 (Score Mode)</option>
-            <option :value="8">8 x 8 (Solo Sandbox)</option>
+            <option :value="5">5 x 5</option>
+            <option :value="6">6 x 6</option>
+            <option :value="7">7 x 7</option>
+            <option :value="8">8 x 8</option>
           </select>
         </div>
 
         <div class="flex flex-col gap-1.5">
-          <label class="text-slate-400 font-medium">Operational Rule Ruleset</label>
+          <label class="text-slate-400 font-medium">Game Mode</label>
           <select
             :value="gameVariant"
             @change="updateGameVariant"
             :disabled="gameStarted"
             class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-slate-200 font-semibold focus:outline-none focus:border-emerald-500 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <option value="standard">Standard PvP Mode</option>
-            <option value="doublePlant">Double Planting Variant</option>
-            <option value="collaborative">Collaborative Puzzle</option>
+            <option value="standard">Standard</option>
+            <option value="doublePlant">Double Planting</option>
+            <option value="collaborative">Teamwork</option>
           </select>
         </div>
       </div>
@@ -51,7 +51,7 @@
         @click="$emit('wind-blow', dir)"
         :disabled="phase !== 'wind' || dir.used || gameOver"
         :class="[
-          'absolute w-12 h-12 rounded-xl text-xs font-black flex flex-col items-center justify-center transition-all duration-200 border shadow-md focus:outline-none',
+          'absolute w-10 h-10 rounded-xl text-xs font-black flex flex-col items-center justify-center transition-all duration-200 border shadow-md focus:outline-none',
           dir.used
             ? 'bg-slate-900 border-slate-800 text-slate-600 cursor-not-allowed line-through'
             : phase === 'wind' && !gameOver
@@ -92,7 +92,7 @@
       class="w-full mt-4 bg-amber-950/20 border border-amber-500/20 p-3 rounded-xl text-xs flex items-center justify-between"
     >
       <span class="text-amber-400/80 font-medium">Wind Score Potential:</span>
-      <span class="font-black text-amber-400 text-sm">{{ totalUncovered }} Pt{{ totalUncovered !== 1 ? 's' : '' }}</span>
+      <span class="font-black text-amber-400 text-sm">{{ totalUncovered }} Point{{ totalUncovered !== 1 ? 's' : '' }}</span>
     </div>
   </div>
 </template>

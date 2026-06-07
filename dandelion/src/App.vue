@@ -89,7 +89,7 @@ const directions = ref<Direction[]>([
   {
     id: "N",
     name: "North",
-    icon: "↑",
+    icon: "⬆️",
     x: 0,
     y: -1,
     dr: -1,
@@ -99,40 +99,49 @@ const directions = ref<Direction[]>([
   {
     id: "NE",
     name: "NorthEast",
-    icon: "↗",
+    icon: "↗️",
     x: 0.71,
     y: -0.71,
     dr: -1,
     dc: 1,
     used: false,
   },
-  { id: "E", name: "East", icon: "→", x: 1, y: 0, dr: 0, dc: 1, used: false },
+  { id: "E", name: "East", icon: "➡️", x: 1, y: 0, dr: 0, dc: 1, used: false },
   {
     id: "SE",
     name: "SouthEast",
-    icon: "↘",
+    icon: "↘️",
     x: 0.71,
     y: 0.71,
     dr: 1,
     dc: 1,
     used: false,
   },
-  { id: "S", name: "South", icon: "↓", x: 0, y: 1, dr: 1, dc: 0, used: false },
+  { id: "S", name: "South", icon: "⬇️", x: 0, y: 1, dr: 1, dc: 0, used: false },
   {
     id: "SW",
     name: "SouthWest",
-    icon: "↙",
+    icon: "↙️",
     x: -0.71,
     y: 0.71,
     dr: 1,
     dc: -1,
     used: false,
   },
-  { id: "W", name: "West", icon: "←", x: -1, y: 0, dr: 0, dc: -1, used: false },
+  {
+    id: "W",
+    name: "West",
+    icon: "⬅️",
+    x: -1,
+    y: 0,
+    dr: 0,
+    dc: -1,
+    used: false,
+  },
   {
     id: "NW",
     name: "NorthWest",
-    icon: "↖",
+    icon: "↖️",
     x: -0.71,
     y: -0.71,
     dr: -1,
@@ -158,14 +167,14 @@ const phaseMessage = computed(() => {
 
   if (phase.value === "dandelion") {
     if (gameVariant.value === "doublePlant" && currentTurn.value === 1) {
-      return `🌼 DANDELION GUST: Plant flower deployment item #${doublePlantCounter.value + 1} of 2`;
+      return `🌼 Dandelion gust: Plant flower deployment item #${doublePlantCounter.value + 1} of 2`;
     }
-    return "🌼 DANDELION PHASE: Choose an uncultivated cell (or override seed) to deploy flower!";
+    return "🌼 Dandelion's Turn: Choose an uncultivated cell (or override seed) to deploy flower!";
   } else {
     if (gameVariant.value === "doublePlant" && currentTurn.value === 1) {
-      return `💨 WIND: Engage wind directional vector entry #${doubleWindCounter.value + 1} of 2`;
+      return `🍃 Wind: Engage wind directional vector entry #${doubleWindCounter.value + 1} of 2`;
     }
-    return "💨 ATMOSPHERIC TURN: Select an unused direction from the compass dial!";
+    return "🍃 Wind's turn: Select an unused direction from the compass dial!";
   }
 });
 
@@ -200,7 +209,7 @@ const gameOverMessage = computed(() => {
 
   return allCovered
     ? "🎉 Victory to the Dandelions! The entire meadow has been successfully claimed!"
-    : `💨 Victory to the Wind! The ecosystem preserved ${totalUncovered.value} empty grid coordinate sectors.`;
+    : `🍃 Victory to the Wind! The ecosystem preserved ${totalUncovered.value} empty grid coordinate sectors.`;
 });
 
 const resetGame = () => {
