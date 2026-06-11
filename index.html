@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>html-games</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        background: rgba(30, 41, 59, 0.9);
+        text-decoration: none;
+        color: inherit;
+        transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      }
+      .game-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(56, 189, 248, 0.4);
+        background: rgba(30, 41, 59, 0.98);
+      }
+      .game-card h2 {
+        margin: 0 0 0.5rem;
+        font-size: 1.2rem;
+      }
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        color: #94a3b8;
+        font-size: 0.95rem;
+      }
+      footer {
+        margin-top: 1.75rem;
+        color: #64748b;
+        font-size: 0.95rem;
+      }
+      .hint {
+        color: #a5f3fc;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>html-games</h1>
+      <p>Simple landing page for browser-based mini-games. The first playable game is <strong>Dandelions vs. Wind</strong>.</p>
+      <ul class="games">
+        <li>
+          <a class="game-card" href="./dandelion/">
+            <h2>🌾 Dandelions vs. Wind</h2>
+            <p>Vue 3 + TypeScript + Vite strategy game. Plant dandelions, launch wind gusts, and protect the meadow.</p>
+            <div class="meta">First game • standalone app • playable from the `dandelion/` folder</div>
+          </a>
+        </li>
+      </ul>
+      <footer>
+        <p class="hint">Add new games as sibling folders and link them from this landing page.</p>
+      </footer>
+    </main>
+  </body>
+</html>

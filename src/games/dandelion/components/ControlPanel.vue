@@ -53,7 +53,7 @@
         :class="[
           'absolute w-10 h-10 rounded-xl text-xs font-black flex flex-col items-center justify-center transition-all duration-200 border shadow-md focus:outline-none',
           dir.used
-            ? 'bg-slate-900 border-slate-800 text-slate-600 cursor-not-allowed line-through'
+            ? 'hidden'
             : phase === 'wind' && !gameOver
               ? 'bg-sky-500 hover:bg-sky-400 border-sky-400 text-white shadow-sky-500/20 scale-100 hover:scale-110 active:scale-95 cursor-pointer ring-2 ring-sky-400/30 animate-[pulse_2s_infinite]'
               : 'bg-slate-800 border-slate-700 text-slate-400 cursor-not-allowed',
