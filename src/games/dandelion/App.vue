@@ -48,11 +48,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import AppHeader from "./components/AppHeader.vue";
 import RulesPanel from "./components/RulesPanel.vue";
 import Board from "./components/Board.vue";
 import ControlPanel from "./components/ControlPanel.vue";
+import { storage } from "../../utils/storage";
 
 type CellType = "empty" | "flower" | "seed";
 
@@ -212,6 +213,22 @@ const gameOverMessage = computed(() => {
     : `🍃 Victory to the Wind! The ecosystem preserved ${totalUncovered.value} empty grid coordinate sectors.`;
 });
 
+const autoSaveGame = () => {
+  storage.saveDandelionFullState({
+    grid: grid.value,
+    gridSize: gridSize.value,
+    gameVariant: gameVariant.value as 'standard' | 'doublePlant' | 'collaborative',
+    phase: phase.value,
+    currentTurn: currentTurn.value,
+    gameOver: gameOver.value,
+    gameStarted: gameStarted.value,
+    showRules: showRules.value,
+    doublePlantCounter: doublePlantCounter.value,
+    doubleWindCounter: doubleWindCounter.value,
+    directions: directions.value,
+  });
+};
+
 const resetGame = () => {
   const newGrid: Cell[][] = [];
   for (let r = 0; r < gridSize.value; r++) {
@@ -230,6 +247,8 @@ const resetGame = () => {
   gameStarted.value = false;
   doublePlantCounter.value = 0;
   doubleWindCounter.value = 0;
+
+  autoSaveGame();
 };
 
 const toggleRules = () => {
@@ -257,15 +276,20 @@ const handleCellClick = (row: number, col: number) => {
 
   if (gameVariant.value === "doublePlant" && currentTurn.value === 1) {
     doublePlantCounter.value++;
-    if (doublePlantCounter.value < 2) return;
+    if (doublePlantCounter.value < 2) {
+      autoSaveGame();
+      return;
+    }
   }
 
   if (totalUncovered.value === 0) {
     evaluateSystemEndgame();
+    autoSaveGame();
     return;
   }
 
   phase.value = "wind";
+  autoSaveGame();
 };
 
 const handleWindBlow = (dir: Direction) => {
@@ -303,12 +327,13 @@ const handleWindBlow = (dir: Direction) => {
   if (gameVariant.value === "doublePlant" && currentTurn.value === 1) {
     doubleWindCounter.value++;
     if (doubleWindCounter.value < 2) {
-      if (totalUncovered.value === 0) evaluateSystemEndgame();
+      autoSaveGame();
       return;
     }
   }
 
   evaluateSystemEndgame();
+  autoSaveGame();
 };
 
 const evaluateSystemEndgame = () => {
@@ -321,6 +346,43 @@ const evaluateSystemEndgame = () => {
 };
 
 onMounted(() => {
-  resetGame();
+  // Try to restore full game state
+  const savedFullState = storage.loadDandelionFullState();
+
+  if (savedFullState && savedFullState.gameStarted) {
+    // Restore full game state
+    grid.value = savedFullState.grid;
+    gridSize.value = savedFullState.gridSize;
+    gameVariant.value = savedFullState.gameVariant;
+    phase.value = savedFullState.phase;
+    currentTurn.value = savedFullState.currentTurn;
+    gameOver.value = savedFullState.gameOver;
+    gameStarted.value = savedFullState.gameStarted;
+    showRules.value = savedFullState.showRules;
+    doublePlantCounter.value = savedFullState.doublePlantCounter;
+    doubleWindCounter.value = savedFullState.doubleWindCounter;
+    directions.value = savedFullState.directions;
+
+    console.log('Game state restored from localStorage');
+  } else {
+    // Load saved settings and start fresh game
+    const state = storage.loadDandelionState();
+    gridSize.value = state.gridSize;
+    gameVariant.value = state.gameVariant;
+    resetGame();
+  }
+
+  // Save settings whenever they change (but not the full state, handled by auto-save)
+  watch(() => gridSize.value, (newSize) => {
+    if (!gameStarted.value) {
+      storage.saveDandelionState(newSize, gameVariant.value);
+    }
+  });
+
+  watch(() => gameVariant.value, (newVariant) => {
+    if (!gameStarted.value) {
+      storage.saveDandelionState(gridSize.value, newVariant);
+    }
+  });
 });
 </script>

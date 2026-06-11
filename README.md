@@ -1,4 +1,4 @@
-# html-games
+# Simply Web Games
 
 A single Vite app serving a landing page and multiple browser-based mini-games.
 
